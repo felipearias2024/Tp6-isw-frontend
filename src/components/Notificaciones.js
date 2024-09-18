@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './Navbar.css';
 import Mapa from '../assets/images/mapa-centro.png'
 
 import './Notificaciones.css';

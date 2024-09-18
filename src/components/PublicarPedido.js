@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { saveMessage } from '../services/apiService';
 import 'react-toastify/dist/ReactToastify.css';
+import logo from '../assets/images/logo.png';
 
 import './PublicarPedido.css';
 
@@ -61,7 +62,9 @@ const PublicarPedido = () => {
     "Córdoba Capital", "Villa Carlos Paz", "Río Cuarto", "Villa María", "San Francisco",
     "Alta Gracia", "Río Tercero", "Cosquín", "Jesús María", "La Falda"
   ];
-  //esto
+
+  const fileInputRef = useRef(null);
+
   const validateForm = () => {
     const { tipoCarga, calleRetiro, numeroRetiro, localidadRetiro, provinciaRetiro, fechaRetiro, calleEntrega, numeroEntrega, localidadEntrega, provinciaEntrega, fechaEntrega } = formData;
 
@@ -192,11 +195,6 @@ const PublicarPedido = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formValid) {
-      setError('Por favor, completa todos los campos obligatorios antes de publicar.');
-      return;
-    }
-    // Preparar el body para el POST
     const messageData = {
       tipoCarga: formData.tipoCarga,
       domicilioRetiro: {
@@ -220,10 +218,10 @@ const PublicarPedido = () => {
       observacion: formData.observaciones
     };
     try {
-      await saveMessage(messageData);
+      //await saveMessage(messageData);
       toast.success('Pedido publicado con éxito!', {
         position: "top-right",
-        autoClose: 30000, // Cierra después de 30 segundos
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -255,6 +253,9 @@ const PublicarPedido = () => {
       setLocalidadesEntrega([]);
       setError('');
       setFormValid(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     } catch (error) {
       console.error('Error al publicar el pedido:', error);
       setError('Error al publicar el pedido. Inténtalo nuevamente.');
@@ -265,10 +266,7 @@ const PublicarPedido = () => {
 
     <div className="form-page">
       <div className="header">
-        {/* Logo */}
-
-
-        {/* Título */}
+        <img src={logo} alt="Logo" className="logo" />
         <h1>Publicar Pedido</h1>
       </div>
 
@@ -421,7 +419,7 @@ const PublicarPedido = () => {
 
         {error && <p style={{ color: 'red' }}>{error}</p>}
 
-        <button type="submit" disabled={!formValid}>Publicar Pedido</button>
+        <button type="submit">Publicar Pedido</button>
         <ToastContainer />
       </form>
     </div>
