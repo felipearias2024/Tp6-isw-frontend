@@ -218,7 +218,7 @@ const PublicarPedido = () => {
       observacion: formData.observaciones
     };
     try {
-      //await saveMessage(messageData);
+      await saveMessage(messageData);
       toast.success('Pedido publicado con éxito!', {
         position: "top-right",
         autoClose: 3000,
